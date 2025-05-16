@@ -1,13 +1,21 @@
 package main
 
-
 import (
 	"log"
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
 	"Weather-Forecast-API/internal"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Failed to load .env file.")
+	}
+}
 
 func main() {
 	r := chi.NewRouter()
