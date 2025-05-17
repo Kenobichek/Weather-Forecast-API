@@ -1,4 +1,4 @@
-package internal
+package handlers
 
 import (
 	"Weather-Forecast-API/internal/weather"
@@ -30,16 +30,4 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
-}
-
-func Subscribe(w http.ResponseWriter, r *http.Request) {
-	log.Print("Subscribe")
-}
-
-func Confirm(w http.ResponseWriter, r *http.Request) {
-	log.Print("Confirm")
-}
-
-func Unsubscribe(w http.ResponseWriter, r *http.Request) {
-	log.Print("Unsubscribe")
 }
