@@ -70,5 +70,5 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 	notifier := notifier.EmailNotifier{}
 	_ = notifier.Send(channel_value, message, subject)
 
-	utilities.RespondJSON(w, http.StatusBadRequest, "Subscription successful. Confirmation sent.")
+	utilities.RespondJSON(w, http.StatusOK, "Subscription successful. Confirmation sent.")
 }
