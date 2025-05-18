@@ -35,14 +35,14 @@ services:
       start_period: 30s
       timeout: 10s
 
-  migrate:
-    image: migrate/migrate
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - ./migrations/:/migrations
-    command: ["-path", "/migrations/", "-database", "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable", "up"]
+  # migrate:
+  #   image: migrate/migrate
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./migrations/:/migrations
+  #   command: ["-path", "/migrations/", "-database", "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable", "up"]
 
 volumes:
   pgdata:

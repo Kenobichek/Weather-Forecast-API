@@ -21,6 +21,7 @@ func init() {
 
 func main() {
 	db.Init()
+	db.RunMigrations(db.DB)
 
 	go scheduler.StartScheduler()
 
