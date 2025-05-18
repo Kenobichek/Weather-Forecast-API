@@ -6,6 +6,7 @@ import (
 
 	"Weather-Forecast-API/internal"
 	"Weather-Forecast-API/internal/db"
+	"Weather-Forecast-API/internal/scheduler"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
@@ -20,7 +21,8 @@ func init() {
 
 func main() {
 	db.Init()
-	log.Println()
+
+	go scheduler.StartScheduler()
 
 	r := chi.NewRouter()
 	internal.RegisterRoutes(r)
