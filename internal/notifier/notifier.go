@@ -1,5 +1,5 @@
 package notifier
 
 type Notifier interface {
-	Send(destination, message string) error
+	Send(email_to string, message string, subject string) error
 }
