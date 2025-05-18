@@ -3,6 +3,7 @@ package repository
 import (
 	"Weather-Forecast-API/internal/db"
 	"Weather-Forecast-API/internal/models"
+	"database/sql"
 	"errors"
 	"strings"
 	"time"
@@ -62,4 +63,56 @@ func UnsubscribeByToken(token string) error {
 		return errors.New("not found")
 	}
 	return nil
+}
+
+func GetDueSubscriptions() []models.Subscription {
+	rows, _ := db.DB.Query(`
+		SELECT id, channel_type, channel_value, city, frequency_minutes
+		FROM subscriptions
+		WHERE confirmed = TRUE AND next_notified_at <= NOW()
+	`)
+
+	var subs []models.Subscription
+	for rows.Next() {
+		var s models.Subscription
+		rows.Scan(&s.ID, &s.ChannelType, &s.ChannelValue, &s.City, &s.FrequencyMinutes)
+		subs = append(subs, s)
+	}
+
+	return subs
+}
+
+func UpdateNextNotification(id int, next time.Time) {
+	db.DB.Exec(`UPDATE subscriptions SET next_notified_at = $1 WHERE id = $2`, next, id)
+}
+
+
+func GetSubscriptionByToken(token string) (models.Subscription, error) {
+	row := db.DB.QueryRow(`
+		SELECT id, channel_type, channel_value, city, frequency_minutes, confirmed, token, next_notified_at, created_at
+		FROM subscriptions
+		WHERE token = $1
+	`, token)
+
+	var s models.Subscription
+	err := row.Scan(
+		&s.ID,
+		&s.ChannelType,
+		&s.ChannelValue,
+		&s.City,
+		&s.FrequencyMinutes,
+		&s.Confirmed,
+		&s.Token,
+		&s.NextNotifiedAt,
+		&s.CreatedAt,
+	)
+
+	if err == sql.ErrNoRows {
+		return s, errors.New("subscription not found")
+	}
+	if err != nil {
+		return s, err
+	}
+
+	return s, nil
 }
