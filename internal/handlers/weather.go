@@ -3,7 +3,6 @@ package handlers
 import (
 	"Weather-Forecast-API/internal/weather"
 	"encoding/json"
-	"log"
 	"net/http"
 	"os"
 )
@@ -17,7 +16,6 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 
 	provider := weather.OpenWeather{APIKey: os.Getenv("OPENWETHERMAP_API_KEY")}
 	data, err := provider.GetWeather(city)
-	log.Println("err: " + err.Error())
 	
 	if err != nil {
 		if err.Error() == "city not found" {
