@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"Weather-Forecast-API/internal"
 	"Weather-Forecast-API/internal/db"
@@ -27,7 +28,9 @@ func main() {
 
 	r := chi.NewRouter()
 	internal.RegisterRoutes(r)
-
-	log.Println("Server started at :8080")
-	http.ListenAndServe(":8080", r)
+	
+	port := os.Getenv("PORT")
+	
+	log.Println("Server started at :"+port)
+	http.ListenAndServe(":"+port, r)
 }

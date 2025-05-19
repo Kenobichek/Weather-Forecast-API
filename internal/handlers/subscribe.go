@@ -13,11 +13,6 @@ import (
 )
 
 func Subscribe(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseMultipartForm(10 << 20); err != nil {
-		utilities.RespondJSON(w, http.StatusBadRequest, "Invalid multipart form data")
-		return
-	}
-
 	channel_value := r.FormValue("email")
 	city := r.FormValue("city")
 	frequency := r.FormValue("frequency")
